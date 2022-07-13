@@ -59,40 +59,74 @@ partidos = validarRepetidos(string2, "=", ",")
 # Ingreso de string 3 (conformación de coaliciones)
 string3 = "C1:P1,P1;C2:P2,P3;C3:P4"
 
-"""
-J = string3.find(":")
+var = ""
+I = -1 ; K = 0
+dupC = "" ; dupP = ""
+while K != -1:
+    K = string3.find(":", I+1)
+    
+    coa = string3[I+1:K]
+    if coa not in dupC:
+        dupC += coa
+    else:
+        print("error: duplicado")
+    
+    #print(coa)
+    
+    I = string3.find(";", K+1)
+    if I != -1:
+        par = string3[K+1:I]
+        #print(par)
+    else:
+        par = string3[K+1:]
+        #print(par)
 
-L = -1
-c += string3[L+1:J]
-
-K = string3.find(",")
-p += string3[J+1:K]
-
-L = string3.find(";")
-"""
+    # SEPARAR par Y COMPROBAR EXISTENCIA Y DUPLICADOS
+    
+    if coa not in coaliciones:
+        print("error: no existe")
+    
+    if I == -1:
+        break
 
 
 # Ingreso de string 4 (votos)
-string4 = "P1$P1$P2$P2$P5$P3$P2$P2$P3$P1"
+string4 = "P1$P1$P2$P2$P5$P3$P2$P2$P3$P1$P3$P3$P4"
 
-var = ""
-L = -1
-K = 0
-while K != -1:
-    K = string4.find("$", L+1)
-    var = string4[L+1:K]
+# verificar existencia:
+print(partidos)
+
+def verificarExistencia(var):
     if var not in partidos:
-        error = 1
-    var = ""
-    L = K
-    
+        print("error")
+        return False
 
+I = -1 ; K = 0
+while K != -1:
+    K = string4.find("$", I+1)
+    if K != -1:
+        var = string4[I+1:K]
+    else:
+        var = string4[I+1:]
 
+    if verificarExistencia(var):
+        
 
+    if K != -1:
+        I = string4.find("$", K+1)
+        if I != -1:
+            var = string4[K+1:I]
+        else:
+            var = string4[K+1:]
+
+    if I == -1 or K == -1:
+        break
+
+# contar votos:
 count = "" ; var = ""
 for x in partidos:
     if x == "/":
-        count += string4.count(var) + "/"
+        count += str(string4.count(var)) + "/"
         var = ""
     else:
         var += x
@@ -102,3 +136,4 @@ for x in partidos:
 # Cálculo de votos por coalición
 
 # Crear menú funcional para acceder a cada paso
+
